@@ -7,8 +7,8 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #ffb950, #ffb950);
-            color: #ff;
+            background: linear-gradient(to right, #339900, #ffcc33);
+            color: #fff;
             display: flex;
             justify-content: center;
             align-items: flex-start;
@@ -24,7 +24,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('https://hippo-olympiad.org/wp-content/uploads/2023/10/LOGO-COMPLETO-2024-2.png') no-repeat center center fixed;
+            background: url(https://hippo-thecontest.org/wp-content/uploads/2024/10/logo.svg) no-repeat center center fixed;
             background-size: contain;
             opacity: 0.1; /* Riduce la nitidezza dell'immagine */
             z-index: -1;
@@ -45,12 +45,18 @@
         h1 {
             font-size: 50px;
             margin-bottom: 70px;
-            color: #ff;
+            color: #fff;
         }
 
         p {
             font-size: 38px;
             margin-bottom: 40px;
+        }
+
+        label {
+            font-size: 16px;
+            color: #fff;
+            text-align: left;
         }
 
         input[type="date"] {
@@ -62,6 +68,10 @@
             width: 100%;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
             background: #fff;
+        }
+
+        input[type="date"]::placeholder {
+            color: white;
         }
 
         .timeslots {
@@ -123,12 +133,6 @@
             gap: 15px;
         }
 
-        label {
-            font-size: 16px;
-            color: #fff;
-            text-align: left;
-        }
-
         input[type="email"],
         textarea {
             padding: 12px;
@@ -150,7 +154,11 @@
     <div class="container">
         <h1>Book an appointment</h1>
         <p>Select a date and an available time slot</p>
+        
+        <!-- Aggiunto il label sopra l'input -->
+        <label for="appointment-date">Select a date:</label>
         <input type="date" id="appointment-date">
+        
         <div id="timeslot-container" class="hidden">
             <div class="timeslots">
                 <button class="timeslot" data-time="10:00">10:00</button>
@@ -161,11 +169,7 @@
                 <button class="timeslot" data-time="15:00">15:00</button>
                 <button class="timeslot" data-time="16:00">16:00</button>
             </div>
-            <form
-                id="booking-form"
-                action="https://formspree.io/f/mblrpgen"
-                method="POST"
-            >
+            <form id="booking-form" action="https://formspree.io/f/mblrpgen" method="POST">
                 <input type="hidden" name="date" id="booking-date-input">
                 <input type="hidden" name="time" id="booking-time-input">
                 <input type="hidden" name="_subject" value="New Appointment Booking">
@@ -181,6 +185,7 @@
             </form>
         </div>
     </div>
+
     <script>
         const dateInput = document.getElementById('appointment-date');
         const timeslotContainer = document.getElementById('timeslot-container');
