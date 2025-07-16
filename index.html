@@ -192,14 +192,13 @@
     function updateMinDate() {
       const today = new Date().toISOString().split('T')[0];
       dateInput.setAttribute('min', today);
-      dateInput.setAttribute('value', today);
     }
 
     function updateTimeslotAvailability() {
       const selectedDate = new Date(dateInput.value);
-      const day = selectedDate.getDay();
+      const day = selectedDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
 
-      if (day >= 1 && day <= 6) { // Monday (1) to Saturday (6)
+      if (day >= 1 && day <= 6) {
         timeslotContainer.classList.remove('hidden');
         timeslots.forEach(slot => slot.classList.remove('disabled'));
       } else {
@@ -210,7 +209,6 @@
     }
 
     dateInput.addEventListener('change', updateTimeslotAvailability);
-    dateInput.addEventListener('input', updateTimeslotAvailability);
 
     timeslots.forEach(slot => {
       slot.addEventListener('click', function () {
@@ -236,9 +234,7 @@
       }
     });
 
-    // Init
-    updateMinDate();
-    updateTimeslotAvailability();
+    updateMinDate(); // solo min date, no default value
   </script>
 </body>
 </html>
