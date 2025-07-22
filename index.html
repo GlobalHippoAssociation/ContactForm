@@ -190,8 +190,10 @@
     let selectedSlot = null;
 
     function updateMinDate() {
-      const today = new Date().toISOString().split('T')[0];
-      dateInput.setAttribute('min', today);
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const minDate = tomorrow.toISOString().split('T')[0];
+      dateInput.setAttribute('min', minDate);
     }
 
     function updateTimeslotAvailability() {
@@ -234,7 +236,7 @@
       }
     });
 
-    updateMinDate(); // solo min date, no default value
+    updateMinDate(); // set minimum date to tomorrow
   </script>
 </body>
 </html>
