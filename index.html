@@ -197,15 +197,16 @@
 
     function updateTimeslotAvailability() {
       const selectedDate = new Date(dateInput.value);
-      const day = selectedDate.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+      const day = selectedDate.getDay(); // 0 = Sunday, 6 = Saturday
 
-      if (day >= 1 && day <= 6) {
-        timeslotContainer.classList.remove('hidden');
-        timeslots.forEach(slot => slot.classList.remove('disabled'));
-      } else {
+      if (day === 0 || day === 6) {
+        alert('Appointments can only be booked from Monday to Friday.');
+        dateInput.value = ''; // reset selection
         timeslotContainer.classList.add('hidden');
         timeslots.forEach(slot => slot.classList.add('disabled'));
-        alert('Appointments can only be booked from Monday to Saturday.');
+      } else {
+        timeslotContainer.classList.remove('hidden');
+        timeslots.forEach(slot => slot.classList.remove('disabled'));
       }
     }
 
