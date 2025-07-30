@@ -189,10 +189,17 @@
     let selectedSlot = null;
 
     function updateMinDate() {
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      const minDate = tomorrow.toISOString().split('T')[0];
-      dateInput.setAttribute('min', minDate);
+      const today = new Date();
+      let minSelectable = new Date(today);
+      minSelectable.setDate(minSelectable.getDate() + 2); // due giorni dopo
+
+      // Salta al lunedì se cade nel weekend
+      while (minSelectable.getDay() === 0 || minSelectable.getDay() === 6) {
+        minSelectable.setDate(minSelectable.getDate() + 1);
+      }
+
+      const minDateStr = minSelectable.toISOString().split('T')[0];
+      dateInput.setAttribute('min', minDateStr);
     }
 
     function updateTimeslotAvailability() {
@@ -236,7 +243,7 @@
       }
     });
 
-    updateMinDate(); // set minimum date to tomorrow
+    updateMinDate(); // Imposta il minimo disponibile
   </script>
 </body>
 </html>
