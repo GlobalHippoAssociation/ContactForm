@@ -166,11 +166,13 @@
 
     <div id="timeslot-container" class="hidden">
       <div class="timeslots">
-        <button class="timeslot" data-time="09:00">09:00</button>
-        <button class="timeslot" data-time="10:00">10:00</button>
         <button class="timeslot" data-time="11:00">11:00</button>
         <button class="timeslot" data-time="12:00">12:00</button>
-        <button class="timeslot" data-time="13:00">13:00</button>
+        <button class="timeslot" data-time="14:00">14:00</button>
+        <button class="timeslot" data-time="15:00">15:00</button>
+        <button class="timeslot" data-time="16:00">16:00</button>
+        <button class="timeslot" data-time="17:00">17:00</button>
+        <button class="timeslot" data-time="18:00">18:00</button>
       </div>
       <form id="booking-form" action="https://formspree.io/f/xyzdowpd" method="POST">
         <input type="hidden" name="date" id="booking-date-input" />
@@ -198,13 +200,20 @@
     const bookingTimeInput = document.getElementById('booking-time-input');
     let selectedSlot = null;
 
+    function updateMinDate() {
+      const today = new Date();
+      const minSelectable = new Date('2025-11-14'); // disponibilità da 14 novembre
+      const minDateStr = minSelectable.toISOString().split('T')[0];
+      dateInput.setAttribute('min', minDateStr);
+    }
+
     function updateTimeslotAvailability() {
       const selectedDate = new Date(dateInput.value);
-      const day = selectedDate.getDay(); // 0 = Sunday, 6 = Saturday
+      const day = selectedDate.getDay(); // 0=Sunday, 2=Tuesday, 4=Thursday
 
-      if (day === 0 || day === 6) {
-        alert('Appointments can only be booked from Monday to Friday.');
-        dateInput.value = ''; // reset selection
+      if (day !== 2 && day !== 4) {
+        alert('Appointments are available only on Tuesdays and Thursdays.');
+        dateInput.value = '';
         timeslotContainer.classList.add('hidden');
         timeslots.forEach(slot => slot.classList.add('disabled'));
       } else {
@@ -218,12 +227,9 @@
     timeslots.forEach(slot => {
       slot.addEventListener('click', function () {
         if (!this.classList.contains('disabled')) {
-          if (selectedSlot) {
-            selectedSlot.classList.remove('selected');
-          }
+          if (selectedSlot) selectedSlot.classList.remove('selected');
           this.classList.add('selected');
           selectedSlot = this;
-
           bookingTimeInput.value = selectedSlot.dataset.time;
           bookingDateInput.value = dateInput.value;
         }
@@ -233,11 +239,13 @@
     bookingForm.addEventListener('submit', function (event) {
       if (!selectedSlot) {
         event.preventDefault();
-        alert('Select a time slot before confirming.');
+        alert('Please select a time slot before confirming.');
       } else {
         alert(`You have booked an appointment for ${dateInput.value} at ${selectedSlot.dataset.time}`);
       }
     });
+
+    updateMinDate();
   </script>
 </body>
 </html>
